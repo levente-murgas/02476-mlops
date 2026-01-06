@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class Classifier(nn.Module):
     def __init__(self):
         super(Classifier, self).__init__()
@@ -23,9 +24,9 @@ class Classifier(nn.Module):
         x = self.relu(self.fc1(x))
         x = self.log_softmax(self.fc2(x))
         return x
-    
+
     def extract_representations(self, x):
-        """Forward pass up to the second last connected layer to extract representations."""
+        """Forward pass up to the second last fully connected layer to extract representations."""
         x = self.pool(self.relu(self.conv1(x)))
         x = self.dropout(x)
         x = self.pool(self.relu(self.conv2(x)))
@@ -33,7 +34,7 @@ class Classifier(nn.Module):
         x = x.view(-1, 64 * 5 * 5)
         x = self.relu(self.fc1(x))
         return x
-    
+
 
 if __name__ == "__main__":
     model = Classifier()

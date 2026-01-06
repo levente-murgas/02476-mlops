@@ -19,6 +19,7 @@ def preprocess_data(raw_dir: str, processed_dir: str) -> None:
     test_images: torch.Tensor = torch.load(f"{raw_dir}/test_images.pt")
     test_target: torch.Tensor = torch.load(f"{raw_dir}/test_target.pt")
 
+    # We add channel dimension, before it is (N, 28, 28), after it is (N, 1, 28, 28)
     train_images = train_images.unsqueeze(1).float()
     test_images = test_images.unsqueeze(1).float()
     train_target = train_target.long()

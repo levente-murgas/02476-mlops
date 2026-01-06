@@ -29,5 +29,6 @@ def evaluate(model_checkpoint: str = "models/model.pth") -> None:
     accuracy = np.mean(all_equals)
     print(f"Test Accuracy: {accuracy * 100}%")
 
+
 if __name__ == "__main__":
     typer.run(evaluate)

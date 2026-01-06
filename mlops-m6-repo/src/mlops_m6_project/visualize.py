@@ -36,11 +36,12 @@ def visualize_embeddings(model_checkpoint: str = "models/model.pth") -> None:
     embeddings_2d = tsne.fit_transform(all_embeddings)
 
     plt.figure(figsize=(10, 10))
-    scatter = plt.scatter(embeddings_2d[:, 0], embeddings_2d[:, 1], c=all_labels, cmap='tab10', alpha=0.7)
+    scatter = plt.scatter(embeddings_2d[:, 0], embeddings_2d[:, 1], c=all_labels, cmap="tab10", alpha=0.7)
     plt.legend(*scatter.legend_elements(), title="Classes")
     plt.title("t-SNE visualization of embeddings")
     plt.savefig("reports/figures/embeddings_tsne.png")
     plt.show()
+
 
 if __name__ == "__main__":
     typer.run(visualize_embeddings)
