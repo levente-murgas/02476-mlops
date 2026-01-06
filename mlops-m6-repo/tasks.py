@@ -11,7 +11,6 @@ PYTHON_VERSION = "3.13"
 @task
 def git(ctx: Context, message: str) -> None:
     """Run git commands."""
-    ctx.run("git status", echo=True, pty=not WINDOWS)
     ctx.run("git add .", echo=True, pty=not WINDOWS)
     ctx.run(f'git commit -m "{message}"', echo=True, pty=not WINDOWS)
     ctx.run("git push", echo=True, pty=not WINDOWS)
