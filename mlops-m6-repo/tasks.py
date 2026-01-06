@@ -9,6 +9,16 @@ PYTHON_VERSION = "3.13"
 
 # Project commands
 @task
+def dvc(ctx: Context, folder: str='data', message: str='Add new data') -> None:
+    """Run dvc commands."""
+    ctx.run(f"dvc add {folder}", echo=True, pty=not WINDOWS)
+    ctx.run(f"git add {folder}.dvc .gitignore", echo=True, pty=not WINDOWS)
+    ctx.run(f'git commit -m "dvc add {folder}"', echo=True, pty=not WINDOWS)
+    ctx.run("git push", echo=True, pty=not WINDOWS)
+    ctx.run("dvc push", echo=True, pty=not WINDOWS)
+
+
+@task
 def git(ctx: Context, message: str) -> None:
     """Run git commands."""
     ctx.run("git add .", echo=True, pty=not WINDOWS)
