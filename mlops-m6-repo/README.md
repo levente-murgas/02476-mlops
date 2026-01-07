@@ -18,6 +18,26 @@ Finally, you can visualize how the model embeds the data using the `src/mlops-m6
 uv run src/mlops_m6_project/visualize.py --model-checkpoint models/model.pth
 ```
 
+To run the dockerfiles for training and evaluation, use the following commands:
+```bash
+cd mlops-m6-repo
+
+docker build --platform linux/amd64 -f ./dockerfiles/train.dockerfile . -t train:latest
+
+docker run --name experiment2 -v "$(pwd)/models:/models" -v "$(pwd)/reports:/reports" train:latest
+```
+
+```bash
+cd mlops-m6-repo
+
+docker build --platform linux/amd64 -f ./dockerfiles/evaluate.dockerfile . -t evaluate:latest
+
+docker run --name evaluate --rm \
+-v "$(pwd)/models/model.pth:/models/model.pth" \
+-v "$(pwd)/data:/data" \
+evaluate:latest
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
