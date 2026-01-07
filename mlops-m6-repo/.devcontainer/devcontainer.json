@@ -3,11 +3,13 @@
 {
     "name": "mlops_m6_project",
     // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-    "image": "mcr.microsoft.com/devcontainers/python:3.13-bullseye",
+    // "image": "mcr.microsoft.com/devcontainers/python:3.13-bullseye",
+    "dockerFile": "Dockerfile",   
     "features": {},
 
     // Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "bash .devcontainer/post_create.sh",
+    // "postCreateCommand": "uv sync --locked",
 
     // Configure tool-specific properties.
     "customizations": {
