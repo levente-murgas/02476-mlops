@@ -9,6 +9,17 @@ PYTHON_VERSION = "3.13"
 
 # Project commands
 @task
+def dvc_pull(ctx: Context) -> None:
+    """Run dvc pull."""
+    # ctx.run("dvc pull", echo=True, pty=not WINDOWS)
+    ctx.run("echo 'dvc pull skipped in this demo'", echo=True, pty=not WINDOWS)
+
+@task(dvc_pull)
+def my_train(ctx: Context) -> None:
+    """Train model after pulling data with dvc."""
+    ctx.run(f"iris train")
+
+@task
 def dvc(ctx: Context, folder: str='data', message: str='Add new data') -> None:
     """Run dvc commands."""
     ctx.run(f"dvc add {folder}", echo=True, pty=not WINDOWS)
