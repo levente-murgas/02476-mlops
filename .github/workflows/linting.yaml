@@ -38,3 +38,7 @@ jobs:
       - name: ruff format
         run: |
           uv run ruff format .
+
+      - name: mypy check
+        run: |
+          uv run mypy src tests
