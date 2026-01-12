@@ -1,32 +1,34 @@
 import os
-import numpy as np
-import typer
-import torch
-import hydra
-import matplotlib.pyplot as plt
 from pathlib import Path
-from loguru import logger
-import wandb
+
+import hydra
+import torch
 from dotenv import load_dotenv
+from loguru import logger
 from pytorch_lightning import Trainer
-from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
+
+import wandb
+from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.model_lightning import Classifier
 
 load_dotenv()  # take environment variables from .env file
 wandb.login()
 
-from mlops_m6_project.model_lightning import Classifier
-from mlops_m6_project.data import corrupt_mnist
 
 # Get the absolute path to configs directory
 config_path = str(Path(__file__).parent.parent.parent / "configs")
 
+
 @logger.catch
 @hydra.main(version_base=None, config_path=config_path, config_name="config.yaml")
 def train(cfg):
-    """Train a model on Corrupt MNIST.
+    """
+    Train a model on Corrupt MNIST.
 
-    Returns:
+    Returns
+    -------
         float: Maximum training accuracy achieved during training.
     """
     output_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
@@ -46,17 +48,18 @@ def train(cfg):
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=training_params.batch_size, shuffle=True)
     val_loader = torch.utils.data.DataLoader(test_set, batch_size=training_params.batch_size, shuffle=False)
 
-    checkpoint_callback = ModelCheckpoint(dirpath="models",monitor="val_loss",save_top_k=1,mode="min")
-    early_stopping_callback = EarlyStopping(monitor="val_loss",patience=3,mode="min", verbose=True)    
-    trainer = Trainer(max_epochs=training_params.epochs,
-                      limit_train_batches=0.2,
-                      callbacks=[checkpoint_callback, early_stopping_callback],
-                      logger=WandbLogger(project=os.environ.get("WANDB_PROJECT")),
-                      profiler="simple",
-                      #precision="16-mixed",
-                      #accelerator="cpu"
-                      )
-    
+    checkpoint_callback = ModelCheckpoint(dirpath="models", monitor="val_loss", save_top_k=1, mode="min")
+    early_stopping_callback = EarlyStopping(monitor="val_loss", patience=3, mode="min", verbose=True)
+    trainer = Trainer(
+        max_epochs=training_params.epochs,
+        limit_train_batches=0.2,
+        callbacks=[checkpoint_callback, early_stopping_callback],
+        logger=WandbLogger(project=os.environ.get("WANDB_PROJECT")),
+        profiler="simple",
+        # precision="16-mixed",
+        # accelerator="cpu"
+    )
+
     trainer.fit(model, train_loader, val_loader)
 
     logger.info("Training complete")

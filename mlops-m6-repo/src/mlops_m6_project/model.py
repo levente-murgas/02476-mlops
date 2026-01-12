@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class Classifier(nn.Module):
     def __init__(self, conv1_channels=32, conv2_channels=64, fc1_units=128, fc2_units=10):
         super(Classifier, self).__init__()

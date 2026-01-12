@@ -1,8 +1,8 @@
+import matplotlib.pyplot as plt
 import torch
 import typer
-from tqdm import tqdm
-import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
+from tqdm import tqdm
 
 from mlops_m6_project.data import corrupt_mnist
 from mlops_m6_project.model import Classifier

@@ -1,26 +1,27 @@
 import os
 from pathlib import Path
-import torch
-import typer
+
 import hydra
 import numpy as np
-from mlops_m6_project.model import Classifier
-from mlops_m6_project.data import corrupt_mnist
+import torch
+
 import wandb
-    
+from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.model import Classifier
 
 # Get the absolute path to configs directory
 config_path = str(Path(__file__).parent.parent.parent / "configs")
+
 
 @hydra.main(version_base=None, config_path=config_path, config_name="eval.yaml")
 def evaluate(cfg) -> None:
     """Evaluate a trained model."""
     print("Evaluating like my life depends on it")
-    print('Current working dir:', os.getcwd())
+    print("Current working dir:", os.getcwd())
 
     api = wandb.Api()
     artifact_name = f"{cfg.artifact_name}"
-    artifact = api.artifact(name = artifact_name)
+    artifact = api.artifact(name=artifact_name)
     artifact.download(cfg.artifact_dir)
     model = Classifier()
     model.load_state_dict(torch.load(f"{cfg.artifact_dir}/model.pth"))

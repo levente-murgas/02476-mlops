@@ -1,32 +1,35 @@
 import os
-import numpy as np
-import typer
-import torch
+from pathlib import Path
+
 import hydra
 import matplotlib.pyplot as plt
-from pathlib import Path
-from loguru import logger
-import wandb
+import numpy as np
+import torch
 from dotenv import load_dotenv
+from loguru import logger
+
+import wandb
+from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.model import Classifier
 
 load_dotenv()  # take environment variables from .env file
 wandb.login()
 
-from mlops_m6_project.model import Classifier
-from mlops_m6_project.data import corrupt_mnist
-
 # Get the absolute path to configs directory
 config_path = str(Path(__file__).parent.parent.parent / "configs")
 
+
 @hydra.main(version_base=None, config_path=config_path, config_name="config.yaml")
 def train(cfg) -> float:
-    """Train a model on Corrupt MNIST.
+    """
+    Train a model on Corrupt MNIST.
 
-    Parameters:
-        lr (float): Learning rate for the optimizer.
-        epochs (int): Number of epochs to train the model.
-        batch_size (int): Batch size for training.
-    Returns:
+    Parameters
+    ----------
+        cfg: Config object from Hydra containing model and training parameters.
+
+    Returns
+    -------
         float: Maximum training accuracy achieved during training.
     """
     output_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
