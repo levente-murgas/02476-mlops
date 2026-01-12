@@ -70,7 +70,11 @@ select = ["I", "E4", "E7", "E9", "F", "W", "D"]
 ignore = ["D100", "D211", "D212"]
 
 [tool.coverage.run]
-omit = ["tests/*"]
+omit = ["tests/*",
+    "*/tmp/*",
+    "*/_remote_module_non_scriptable.py",
+    "/private/*",
+]
 
 [project.scripts]
 train = "mlops_m6_project.train:train"
