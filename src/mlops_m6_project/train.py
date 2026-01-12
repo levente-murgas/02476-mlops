@@ -26,11 +26,13 @@ def train(cfg) -> float:
 
     Parameters
     ----------
-        cfg: Config object from Hydra containing model and training parameters.
+    cfg : DictConfig
+        Config object from Hydra containing model and training parameters.
 
     Returns
     -------
-        float: Maximum training accuracy achieved during training.
+    float
+        Maximum training accuracy achieved during training.
     """
     output_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     logger.add(f"{output_dir}/mytrain.log")
