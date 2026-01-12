@@ -3,6 +3,7 @@ data/
 models/
 # test cache
 manual_test/
+.dvc/
 
 wandb/
 lightning_logs/
