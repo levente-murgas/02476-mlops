@@ -1,0 +1,4 @@
+conv1_channels: 32
+conv2_channels: 64
+fc1_units: 128
+fc2_units: 10

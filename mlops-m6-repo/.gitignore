@@ -4,6 +4,10 @@ models/
 # test cache
 manual_test/
 
+wandb/
+lightning_logs/
+outputs/
+
 # other local dev info
 .vscode/
 

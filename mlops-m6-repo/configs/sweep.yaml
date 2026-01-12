@@ -1,0 +1,30 @@
+program: src/mlops_m6_project/train.py
+name: sweepdemo
+method: bayes
+metric:
+  goal: minimize
+  name: validation_loss
+parameters:
+  model.conv1_channels: 
+    value: 32
+  model.conv2_channels: 
+    value: 64
+  model.fc1_units:
+    value: 128
+  model.fc2_units:
+    value: 10
+  training.lr:
+    distribution: uniform
+    min: 0.0001
+    max: 0.1
+  training.batch_size:
+    values: [16, 32, 64]
+  training.epochs:
+    values: [5, 10, 15]
+run_cap: 10
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

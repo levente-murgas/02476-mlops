@@ -1,8 +1,11 @@
+from typing import Any
 import torch
 import torch.nn as nn
+from pytorch_lightning import LightningModule
+import wandb
 
-class Classifier(nn.Module):
-    def __init__(self, conv1_channels=32, conv2_channels=64, fc1_units=128, fc2_units=10):
+class Classifier(LightningModule):
+    def __init__(self, conv1_channels=32, conv2_channels=64, fc1_units=128, fc2_units=10, lr=1e-3):
         super(Classifier, self).__init__()
 
         self.conv1 = nn.Conv2d(1, conv1_channels, kernel_size=3, stride=1, padding=0)
@@ -13,6 +16,9 @@ class Classifier(nn.Module):
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
         self.dropout = nn.Dropout(p=0.2)
         self.log_softmax = nn.LogSoftmax(dim=1)
+
+        self.criterion = nn.NLLLoss()
+        self.lr = lr
 
     def forward(self, x):
         x = self.pool(self.relu(self.conv1(x)))
@@ -33,6 +39,32 @@ class Classifier(nn.Module):
         x = x.view(-1, 64 * 5 * 5)
         x = self.relu(self.fc1(x))
         return x
+    
+    def training_step(self, batch, batch_idx):
+        data, target = batch
+        y_pred = self(data)
+        loss = self.criterion(y_pred, target)
+        self.log('train_loss', loss)
+        # make sure target has shape (batch_size,)
+        target = target.view(-1)
+        acc = (y_pred.argmax(dim=1) == target).float().mean()
+        self.log('train_accuracy', acc, prog_bar=True)
+        # self.logger.experiment.log({'logits': wandb.Histogram(y_pred.cpu().detach().numpy())})
+
+        return loss
+    
+    def validation_step(self, batch, batch_idx):
+        data, target = batch
+        y_pred = self(data)
+        loss = self.criterion(y_pred, target)
+        # make sure target has shape (batch_size,)
+        target = target.view(-1)
+        acc = (y_pred.argmax(dim=1) == target).float().mean()
+        self.log('val_accuracy', acc, prog_bar=True, on_epoch=True)
+        self.log('val_loss', loss, on_epoch=True)
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=self.lr)
 
 
 if __name__ == "__main__":
