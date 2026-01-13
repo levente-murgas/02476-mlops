@@ -1,5 +1,8 @@
 # mlops_m6_project
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/levente-murgas/02476-mlops/main.svg)](https://results.pre-commit.ci/latest/github/levente-murgas/02476-mlops/main)
+
+
 Run the `src/mlops-m6-repo/train.py` script to train a model and save it to the `models/` directory. Use the command below:
 
 ```bash

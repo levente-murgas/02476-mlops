@@ -1,8 +1,3 @@
-import os
-from dotenv import load_dotenv
-from tests import _PROJECT_ROOT
-
-
 # def test_train():
 #     load_dotenv()  # take environment variables from .env file
 #     assert os.getenv("WANDB_ENTITY") is not None, "WANDB_ENTITY is not set in .env"

@@ -1,11 +1,16 @@
-import torch
-import pytest
 import os.path
-from tests import _PATH_DATA
+
+import pytest
+import torch
 from mlops_m6_project.data import corrupt_mnist
 from torch.utils.data import TensorDataset
 
-@pytest.mark.skipif(not os.path.exists(_PATH_DATA) or not any(os.scandir(_PATH_DATA)), reason="Data folder not found or empty")
+from tests import _PATH_DATA
+
+
+@pytest.mark.skipif(
+    not os.path.exists(_PATH_DATA) or not any(os.scandir(_PATH_DATA)), reason="Data folder not found or empty"
+)
 def test_my_dataset():
     """Test the MyDataset class."""
     train_set, test_set = corrupt_mnist()
@@ -25,9 +30,9 @@ def test_my_dataset():
             assert targets.min().item() >= 0
             assert targets.max().item() < N_labels
     train_targets = torch.unique(train_set.tensors[1])
-    assert (train_targets == torch.arange(0,10)).all(), "Training set does not contain all labels from 0 to 9"
+    assert (train_targets == torch.arange(0, 10)).all(), "Training set does not contain all labels from 0 to 9"
     test_targets = torch.unique(test_set.tensors[1])
-    assert (test_targets == torch.arange(0,10)).all(), "Test set does not contain all labels from 0 to 9"
+    assert (test_targets == torch.arange(0, 10)).all(), "Test set does not contain all labels from 0 to 9"
 
 
 def test_normalize():

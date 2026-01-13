@@ -3,13 +3,13 @@ from pathlib import Path
 
 import hydra
 import torch
+import wandb
 from dotenv import load_dotenv
 from loguru import logger
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 
-import wandb
 from mlops_m6_project.data import corrupt_mnist
 from mlops_m6_project.model_lightning import Classifier
 
@@ -30,6 +30,7 @@ def train(cfg):
     Returns
     -------
         float: Maximum training accuracy achieved during training.
+
     """
     output_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     logger.add(f"{output_dir}/mytrain.log")

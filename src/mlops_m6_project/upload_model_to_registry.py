@@ -1,11 +1,11 @@
 """Script to find the latest model and upload it to wandb model registry."""
+
 import os
 from pathlib import Path
 
+import wandb
 from dotenv import load_dotenv
 from loguru import logger
-
-import wandb
 
 load_dotenv()  # Load environment variables from .env file
 wandb.login()
@@ -23,6 +23,7 @@ def find_latest_model(model_dir: str = "models", extensions: list[str] = None) -
     Returns:
     -------
         Path to the latest model file, or None if no models found
+
     """
     if extensions is None:
         extensions = [".ckpt", ".pth", ".pt"]
@@ -68,6 +69,7 @@ def upload_model_to_registry(
         description: Optional description for the artifact
         aliases: Optional list of aliases (e.g., ["latest", "production"])
         metadata: Optional metadata dictionary
+
     """
     if not model_path.exists():
         logger.error(f"Model file {model_path} does not exist")

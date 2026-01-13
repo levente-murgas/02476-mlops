@@ -4,8 +4,8 @@ from pathlib import Path
 import hydra
 import numpy as np
 import torch
-
 import wandb
+
 from mlops_m6_project.data import corrupt_mnist
 from mlops_m6_project.model import Classifier
 

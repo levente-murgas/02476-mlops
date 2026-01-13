@@ -5,9 +5,9 @@ metric:
   goal: minimize
   name: validation_loss
 parameters:
-  model.conv1_channels: 
+  model.conv1_channels:
     value: 32
-  model.conv2_channels: 
+  model.conv2_channels:
     value: 64
   model.fc1_units:
     value: 128

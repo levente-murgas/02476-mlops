@@ -1,17 +1,22 @@
-import torch
 import pytest
+import torch
 from mlops_m6_project.model_lightning import Classifier
 
-@pytest.mark.parametrize("input_tensor", [
-    torch.randn(16, 1, 28, 28),  # valid input
-    torch.randn(32, 1, 28, 28),  # valid input with different batch size
-])
+
+@pytest.mark.parametrize(
+    "input_tensor",
+    [
+        torch.randn(16, 1, 28, 28),  # valid input
+        torch.randn(32, 1, 28, 28),  # valid input with different batch size
+    ],
+)
 def test_forward(input_tensor):
     """Test the forward method of the Classifier model."""
     model = Classifier()
     batch_size = input_tensor.shape[0]
     output = model(input_tensor)
     assert output.shape == (batch_size, 10), "Output shape is incorrect."
+
 
 def test_forward_raises():
     """Test that the forward method raises ValueError for incorrect input shapes."""

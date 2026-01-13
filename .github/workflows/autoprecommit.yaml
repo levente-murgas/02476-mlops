@@ -1,0 +1,31 @@
+name: Auto pre-commit checks
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: "--all-files --show-diff-on-failure"
+        continue-on-error: true
+
+      - name: Git diff
+        run: git diff
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chore: auto-format code with pre-commit"

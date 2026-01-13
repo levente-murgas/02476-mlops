@@ -5,10 +5,10 @@ import hydra
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+import wandb
 from dotenv import load_dotenv
 from loguru import logger
 
-import wandb
 from mlops_m6_project.data import corrupt_mnist
 from mlops_m6_project.model import Classifier
 
@@ -33,6 +33,7 @@ def train(cfg) -> float:
     -------
     float
         Maximum training accuracy achieved during training.
+
     """
     output_dir = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     logger.add(f"{output_dir}/mytrain.log")
