@@ -98,3 +98,10 @@ def train(cfg) -> float:
 if __name__ == "__main__":
     # typer.run(train)
     train()
+
+
+
+
+
+
+
