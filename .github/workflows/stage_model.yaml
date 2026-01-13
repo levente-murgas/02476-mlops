@@ -1,0 +1,52 @@
+name: Stage Model
+
+on:
+  repository_dispatch:
+    types: staged_model
+
+jobs:
+  identify_event:
+    runs-on: ubuntu-latest
+    outputs:
+      model_name: ${{ steps.set_output.outputs.model_name }}
+    steps:
+      - name: Check event type
+        run: |
+          echo "Event type: repository_dispatch"
+          echo "Payload Data: ${{ toJson(github.event.client_payload) }}"
+
+      - name: Setting model environment variable and output
+        id: set_output
+        run: |
+          echo "model_name=${{ github.event.client_payload.artifact_version_string }}" >> $GITHUB_OUTPUT
+
+  performance-test:
+    needs: identify_event
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+  
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: 3.13
+          enable-cache: true
+
+      - name: Install dependencies
+        run: |
+          uv sync --dev --locked
+
+      - name: Run performance tests
+        env:
+          MODEL_NAME: ${{ needs.identify_event.outputs.model_name }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          WANDB_PROJECT: ${{ env.WANDB_PROJECT }}
+          WANDB_ENTITY: ${{ env.WANDB_ENTITY }}
+        run: |
+          uv run python tests/performancetests/test_model.py
