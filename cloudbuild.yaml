@@ -7,7 +7,7 @@ steps:
     '-t',
     'europe-north2-docker.pkg.dev/$PROJECT_ID/ar-docker-1/train-image',
     '-f',
-    'Dockerfile'
+    './sample_script/Dockerfile'
   ]
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push container image'
