@@ -15,7 +15,7 @@ def link_model(artifact_path: str, aliases: list[str] = ["staging"]) -> None:
         model_management link-model entity/project/artifact_name:version -a staging -a best
 
     """
-    if artifact_path == "":
+    if not artifact_path:
         typer.echo("No artifact path provided. Exiting.")
         return
 

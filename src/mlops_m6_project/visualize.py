@@ -4,7 +4,7 @@ import typer
 from sklearn.manifold import TSNE
 from tqdm import tqdm
 
-from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.data import MNISTDataset
 from mlops_m6_project.model import Classifier
 
 
@@ -17,7 +17,7 @@ def visualize_embeddings(model_checkpoint: str = "models/model.pth") -> None:
     model = Classifier()
     model.load_state_dict(state_dict)
     model.eval()
-    train_set, _ = corrupt_mnist()
+    train_set = MNISTDataset(train=True)
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=False)
 
     all_embeddings = []

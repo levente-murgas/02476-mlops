@@ -74,7 +74,7 @@ def dataset_statistics(dataset_path: str):
 class MNISTDataset(torch.utils.data.Dataset):
     """Custom Dataset for MNIST data."""
 
-    def __init__(self, dataset_path: str, train: bool) -> None:
+    def __init__(self,train: bool,  dataset_path: str = "./data/processed") -> None:
         if train:
             self.images = torch.load(f"{dataset_path}/train_images.pt")
             self.targets = torch.load(f"{dataset_path}/train_target.pt")

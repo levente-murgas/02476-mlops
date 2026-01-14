@@ -9,7 +9,7 @@ import wandb
 from dotenv import load_dotenv
 from loguru import logger
 
-from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.data import MNISTDataset
 from mlops_m6_project.model import Classifier
 
 load_dotenv()  # take environment variables from .env file
@@ -46,7 +46,7 @@ def train(cfg) -> float:
         project=os.environ.get("WANDB_PROJECT"),
         config=combined_params,
     )
-    train_set, test_set = corrupt_mnist()
+    train_set = MNISTDataset(train=True)
     model = Classifier(**model_params)
     # add rest of your training code here
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=training_params.batch_size, shuffle=True)

@@ -17,7 +17,7 @@ def preprocess_data(ctx: Context) -> None:
 @task
 def train(ctx: Context) -> None:
     """Train model."""
-    ctx.run(f"uv run src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run(f"uv run src/{PROJECT_NAME}/train_lightning.py", echo=True, pty=not WINDOWS)
 
 
 @task

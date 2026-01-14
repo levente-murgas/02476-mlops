@@ -6,7 +6,7 @@ import numpy as np
 import torch
 import wandb
 
-from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.data import MNISTDataset
 from mlops_m6_project.model import Classifier
 
 # Get the absolute path to configs directory
@@ -26,7 +26,7 @@ def evaluate(cfg) -> None:
     model = Classifier()
     model.load_state_dict(torch.load(f"{cfg.artifact_dir}/model.pth"))
     model.eval()
-    _, test_ds = corrupt_mnist()
+    test_ds = MNISTDataset(train=False)
     test_loader = torch.utils.data.DataLoader(test_ds, batch_size=64, shuffle=False)
 
     all_equals = np.array([])

@@ -7,7 +7,7 @@ on:
     branches: [ master, main ]
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -32,3 +32,23 @@ jobs:
     - name: Test with pytest
       run: |
         uv run pytest -v
+
+  build:
+    needs: test
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Auth to GCP
+      uses: google-github-actions/auth@v3
+      with:
+        credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Build and Push Docker Image
+      run: |
+        gcloud builds submit --config=cloudbuild.yaml .

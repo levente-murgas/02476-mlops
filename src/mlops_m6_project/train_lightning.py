@@ -10,7 +10,7 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 
-from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.data import MNISTDataset
 from mlops_m6_project.model_lightning import Classifier
 
 load_dotenv()  # take environment variables from .env file
@@ -43,7 +43,7 @@ def train(cfg):
         project=os.environ.get("WANDB_PROJECT"),
         config=combined_params,
     )
-    train_set, test_set = corrupt_mnist()
+    train_set, test_set = MNISTDataset(train=True), MNISTDataset(train=False)
     model = Classifier(**model_params, lr=training_params.lr)
     # add rest of your training code here
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=training_params.batch_size, shuffle=True)
