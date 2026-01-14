@@ -33,7 +33,7 @@ dependencies = [
     "scikit-learn>=1.8.0",
     "torch==2.9.1",
     "tqdm>=4.67.1",
-    "typer==0.15.1",
+    "typer==0.21.1",
     "uvicorn==0.34.0",
     "wandb>=0.24.0",
 ]
