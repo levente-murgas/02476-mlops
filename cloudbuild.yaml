@@ -3,7 +3,7 @@ steps:
   id: 'Build container image'
   args: [
     'build',
-    '.',
+    './sample_script',
     '-t',
     'europe-north2-docker.pkg.dev/$PROJECT_ID/ar-docker-1/train-image',
     '-f',
