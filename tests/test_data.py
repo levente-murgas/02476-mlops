@@ -2,7 +2,7 @@ import os.path
 
 import pytest
 import torch
-from mlops_m6_project.data import corrupt_mnist
+from mlops_m6_project.data import MNISTDataset
 from torch.utils.data import TensorDataset
 
 from tests import _PATH_DATA
@@ -13,7 +13,7 @@ from tests import _PATH_DATA
 )
 def test_my_dataset():
     """Test the MyDataset class."""
-    train_set, test_set = corrupt_mnist()
+    train_set, test_set = MNISTDataset(train=True), MNISTDataset(train=False)
     N_train = 30_000
     N_test = 5_000
     N_labels = 10

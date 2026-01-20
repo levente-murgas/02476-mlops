@@ -1,0 +1,12 @@
+service: 'src.mlops_m6_project.service:MNISTMapToLabel'
+labels:
+  owner: levente-murgas
+include:
+  - 'src/mlops_m6_project/service.py'
+  - 'models/cnn.onnx'
+  - 'models/cnn.onnx.data'
+python:
+  packages:
+    - numpy
+    - onnxruntime
+    - bentoml
