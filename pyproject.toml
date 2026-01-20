@@ -48,7 +48,7 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers>=4.57.6",
     "typer==0.15.1",
-    "uvicorn==0.34.0",
+    "uvicorn==0.40.0",
     "wandb>=0.24.0",
 ]
 
